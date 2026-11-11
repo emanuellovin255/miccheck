@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MicCheck</title>
+  <meta name="description" content="Arhiva noastră de povești înregistrate.">
+  <meta name="theme-color" content="#14110f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MicCheck">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <img src="icons/icon-192.png" alt="" width="36" height="36">
+      <div>
+        <h1>MicCheck</h1>
+        <p id="count" class="muted">Arhiva de povești</p>
+      </div>
+    </div>
+    <button id="helpBtn" class="icon-btn" aria-label="Cum import înregistrări">?</button>
+  </header>
+
+  <div class="search-wrap">
+    <input id="search" type="search" placeholder="Caută după titlu, povestitor, note…" autocomplete="off">
+  </div>
+
+  <main>
+    <ul id="list" class="list"></ul>
+
+    <section id="empty" class="empty" hidden>
+      <div class="empty-mic" aria-hidden="true">🎙️</div>
+      <h2>Nicio poveste încă</h2>
+      <p>Înregistrează apelul din aplicația Telefon, salvează-l în Fișiere și apoi apasă <b>Importă</b>. Sau înregistrează direct de aici.</p>
+      <button class="link-btn" data-open-help>Vezi cum se face</button>
+    </section>
+
+    <p id="noResults" class="muted center" hidden>Nimic nu se potrivește căutării.</p>
+    <p id="storage" class="muted center small"></p>
+  </main>
+
+  <nav class="bottom-bar">
+    <label class="btn primary">
+      <input id="fileInput" type="file" accept="audio/*,.m4a,.mp3,.wav,.aac,.caf,.mp4" multiple hidden>
+      <span>＋ Importă</span>
+    </label>
+    <button id="recordBtn" class="btn">● Înregistrează</button>
+  </nav>
+
+  <!-- Editor poveste -->
+  <dialog id="editor" class="sheet">
+    <form method="dialog" id="editorForm">
+      <div class="sheet-head">
+        <button type="button" class="text-btn" data-close>Închide</button>
+        <strong id="editorTitle">Poveste</strong>
+        <button type="submit" class="text-btn accent" value="save">Salvează</button>
+      </div>
+
+      <audio id="player" controls preload="metadata"></audio>
+      <div class="speed" role="group" aria-label="Viteză redare">
+        <button type="button" data-speed="1" class="on">1×</button>
+        <button type="button" data-speed="1.25">1.25×</button>
+        <button type="button" data-speed="1.5">1.5×</button>
+        <button type="button" data-speed="2">2×</button>
+      </div>
+
+      <label class="field">
+        <span>Titlu</span>
+        <input name="title" required maxlength="120" placeholder="Ex: Vara la bunici">
+      </label>
+      <div class="row">
+        <label class="field">
+          <span>Cine povestește</span>
+          <input name="narrator" list="narrators" maxlength="60" placeholder="Nume">
+        </label>
+        <label class="field">
+          <span>Data</span>
+          <input name="date" type="date">
+        </label>
+      </div>
+      <label class="field">
+        <span>Note</span>
+        <textarea name="notes" rows="4" placeholder="Despre ce e povestea, momente preferate…"></textarea>
+      </label>
+      <datalist id="narrators"></datalist>
+
+      <p id="fileInfo" class="muted small"></p>
+
+      <div class="actions">
+        <button type="button" id="shareBtn" class="btn">Partajează / Salvează fișierul</button>
+        <button type="button" id="deleteBtn" class="btn danger">Șterge</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Înregistrare -->
+  <dialog id="recorder" class="sheet">
+    <div class="rec">
+      <div class="rec-dot" aria-hidden="true"></div>
+      <div id="recTime" class="rec-time">00:00</div>
+      <p class="muted small center">Ține ecranul deschis cât timp înregistrezi.</p>
+      <div class="actions">
+        <button type="button" id="recStop" class="btn primary">■ Oprește și salvează</button>
+        <button type="button" id="recCancel" class="btn">Renunță</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Ajutor -->
+  <dialog id="help" class="sheet">
+    <div class="sheet-head">
+      <span></span>
+      <strong>Cum adaug un apel</strong>
+      <button type="button" class="text-btn accent" data-close>Gata</button>
+    </div>
+    <div class="help">
+      <h3>1. Înregistrează apelul</h3>
+      <p>În timpul unui apel în aplicația <b>Telefon</b> (iOS 18.1 sau mai nou), apasă butonul de înregistrare din colțul din stânga sus. iOS redă un mesaj scurt pentru amândoi — asta face Apple și nu se poate opri.</p>
+      <h3>2. Găsește înregistrarea</h3>
+      <p>După apel, înregistrarea apare în aplicația <b>Notițe</b>, în dosarul <b>Înregistrări apeluri</b>.</p>
+      <h3>3. Salvează în Fișiere</h3>
+      <p>Deschide notița, apasă lung pe înregistrare (sau pe butonul ⋯) → <b>Partajează</b> → <b>Salvează în Fișiere</b>.</p>
+      <h3>4. Importă aici</h3>
+      <p>În MicCheck apasă <b>＋ Importă</b>, alege fișierul și dă-i un titlu.</p>
+      <h3>Unde sunt păstrate?</h3>
+      <p>Doar pe acest telefon, în aplicație. Nimic nu se trimite pe internet. Dacă ștergi aplicația de pe ecranul principal, se șterg și poveștile, așa că păstrează o copie cu <b>Partajează / Salvează fișierul</b>.</p>
+    </div>
+  </dialog>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

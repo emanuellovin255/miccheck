@@ -1,0 +1,239 @@
+:root {
+  --bg: #14110f;
+  --surface: #1f1a17;
+  --surface-2: #2a2420;
+  --line: #3a322c;
+  --text: #f5ede6;
+  --muted: #a8998c;
+  --accent: #f2a65a;
+  --accent-ink: #1c130b;
+  --danger: #e5624f;
+  --radius: 16px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100dvh;
+  padding-bottom: calc(96px + var(--safe-bottom));
+}
+
+button, input, textarea { font: inherit; color: inherit; }
+
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.center { text-align: center; }
+
+/* Header */
+.top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(12px + var(--safe-top)) 16px 10px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.brand { display: flex; gap: 12px; align-items: center; }
+.brand img { border-radius: 10px; }
+.brand h1 { margin: 0; font-size: 22px; letter-spacing: -0.02em; }
+.brand p { margin: 0; font-size: 13px; }
+
+.icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-weight: 600;
+}
+
+.search-wrap { padding: 4px 16px 12px; }
+#search {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  outline: none;
+  -webkit-appearance: none;
+}
+#search:focus { border-color: var(--accent); }
+
+main { padding: 0 16px; max-width: 680px; margin: 0 auto; }
+
+/* Listă */
+.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+
+.card {
+  width: 100%;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  text-align: left;
+  padding: 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+}
+.card:active { background: var(--surface-2); }
+
+.card-badge {
+  flex: none;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 17px;
+}
+.card-body { min-width: 0; flex: 1; }
+.card-title {
+  margin: 0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-meta { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.card-notes {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Gol */
+.empty { text-align: center; padding: 48px 12px; }
+.empty-mic { font-size: 48px; }
+.empty h2 { margin: 12px 0 6px; font-size: 20px; }
+.empty p { color: var(--muted); margin: 0 auto 12px; max-width: 340px; }
+.link-btn { background: none; border: 0; color: var(--accent); font-weight: 600; padding: 8px; }
+
+/* Bara de jos */
+.bottom-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px calc(12px + var(--safe-bottom));
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--line);
+}
+.bottom-bar .btn { flex: 1; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; }
+.btn.danger { color: var(--danger); }
+#recordBtn { color: var(--danger); }
+
+/* Dialoguri */
+dialog.sheet {
+  width: 100%;
+  max-width: 680px;
+  max-height: calc(100dvh - var(--safe-top) - 12px);
+  margin: auto auto 0;
+  padding: 0 16px calc(20px + var(--safe-bottom));
+  border: 0;
+  border-radius: 22px 22px 0 0;
+  background: var(--surface);
+  color: var(--text);
+  overflow-y: auto;
+}
+dialog.sheet[open] { animation: up .22s ease-out; }
+dialog::backdrop { background: rgba(0, 0, 0, .55); }
+@keyframes up { from { transform: translateY(40px); opacity: 0; } }
+
+.sheet-head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 14px 0 12px;
+  background: var(--surface);
+}
+.sheet-head > :first-child { justify-self: start; }
+.sheet-head > :last-child { justify-self: end; }
+.text-btn { background: none; border: 0; padding: 6px 0; color: var(--muted); font-weight: 500; }
+.text-btn.accent { color: var(--accent); font-weight: 600; }
+
+#player { width: 100%; margin: 4px 0 8px; }
+
+.speed { display: flex; gap: 6px; margin-bottom: 14px; }
+.speed button {
+  flex: 1;
+  padding: 6px 0;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+}
+.speed button.on { background: var(--surface-2); color: var(--text); border-color: var(--accent); }
+
+.field { display: block; margin-bottom: 12px; }
+.field span { display: block; font-size: 13px; color: var(--muted); margin-bottom: 4px; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  outline: none;
+  -webkit-appearance: none;
+  min-height: 46px;
+}
+.field textarea { resize: vertical; }
+.field input:focus, .field textarea:focus { border-color: var(--accent); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.actions { display: grid; gap: 10px; margin-top: 8px; }
+
+/* Înregistrare */
+.rec { padding: 32px 0 8px; display: grid; justify-items: center; gap: 8px; }
+.rec .actions { width: 100%; }
+.rec-dot {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--danger);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.rec-time { font-size: 48px; font-variant-numeric: tabular-nums; font-weight: 300; letter-spacing: -0.02em; }
+@keyframes pulse { 50% { opacity: .25; transform: scale(.8); } }
+
+/* Ajutor */
+.help h3 { margin: 16px 0 4px; font-size: 16px; color: var(--accent); }
+.help p { margin: 0; color: var(--text); opacity: .9; }
